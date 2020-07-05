@@ -66,6 +66,7 @@ class ViewController: UIViewController {
             moveLabel(label: departingFrom, text: data.departingFrom, offset: offsetDeparting)
             let offsetArriving = CGPoint( x: 0.0, y: CGFloat(direction.rawValue * 50))
             moveLabel(label: arrivingTo, text: data.arrivingTo, offset: offsetArriving)
+            planeDepart()
         } else {
             bgImageView.image = UIImage(named: data.weatherImageName)
             snowView.isHidden = !data.showWeatherEffects
@@ -80,6 +81,32 @@ class ViewController: UIViewController {
         delay(seconds: 3.0) {
             self.changeFlight(to: data.isTakingOff ? parisToRome : londonToParis, animated: true)
         }
+    }
+    
+    func planeDepart() {
+        let originalCenter = planeImage.center
+        UIView.animateKeyframes(withDuration: 3, delay: 0.0, options: [.calculationModeLinear], animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.25) {
+                self.planeImage.center.x += 80.0
+                self.planeImage.center.y -= 10.0
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.4) {
+                self.planeImage.transform = CGAffineTransform(rotationAngle: -.pi / 8)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.25) {
+                self.planeImage.center.x += 200
+                self.planeImage.center.y -= 50.0
+                self.planeImage.alpha = 0.0
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.51, relativeDuration: 0.01) {
+                self.planeImage.transform = .identity
+                self.planeImage.center = CGPoint(x: 0.0, y: originalCenter.y)
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.55, relativeDuration: 0.45) {
+                self.planeImage.alpha = 1.0
+                self.planeImage.center = originalCenter
+            }
+        }, completion: nil)
     }
     
     func moveLabel(label: UILabel, text: String, offset: CGPoint) {
