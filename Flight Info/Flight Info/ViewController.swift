@@ -61,8 +61,11 @@ class ViewController: UIViewController {
             let direction: AnimationDirection = data.isTakingOff ? .positive : .negative
             cubeTransition(label: flightNr, text: data.flightNr, direction: direction)
             cubeTransition(label: gateNr, text: data.gateNr, direction: direction)
-            cubeTransition(label: arrivingTo, text: data.arrivingTo, direction: direction)
-            cubeTransition(label: departingFrom, text: data.departingFrom, direction: direction)
+            
+            let offsetDeparting = CGPoint(x: CGFloat(direction.rawValue * 80), y: 0.0)
+            moveLabel(label: departingFrom, text: data.departingFrom, offset: offsetDeparting)
+            let offsetArriving = CGPoint( x: 0.0, y: CGFloat(direction.rawValue * 50))
+            moveLabel(label: arrivingTo, text: data.arrivingTo, offset: offsetArriving)
         } else {
             bgImageView.image = UIImage(named: data.weatherImageName)
             snowView.isHidden = !data.showWeatherEffects
@@ -76,6 +79,31 @@ class ViewController: UIViewController {
         // schedule next flight
         delay(seconds: 3.0) {
             self.changeFlight(to: data.isTakingOff ? parisToRome : londonToParis, animated: true)
+        }
+    }
+    
+    func moveLabel(label: UILabel, text: String, offset: CGPoint) {
+        let auxLabel = UILabel(frame: label.frame)
+        auxLabel.text = text
+        auxLabel.font = label.font
+        auxLabel.textAlignment = label.textAlignment
+        auxLabel.textColor = label.textColor
+        auxLabel.backgroundColor = .clear
+        auxLabel.transform = CGAffineTransform(translationX: offset.x, y: offset.y)
+        auxLabel.alpha = 0
+        view.addSubview(auxLabel)
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn], animations: {
+            label.transform = CGAffineTransform(translationX: offset.x, y: offset.y)
+            label.alpha = 0
+        }, completion: nil)
+        UIView.animate(withDuration: 0.25, delay: 0.1, options: [.curveEaseIn], animations: {
+            auxLabel.transform = .identity
+            auxLabel.alpha = 1
+        }) { _ in
+            auxLabel.removeFromSuperview()
+            label.text = text
+            label.alpha = 1
+            label.transform = .identity
         }
     }
     
