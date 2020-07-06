@@ -19,6 +19,19 @@ class ViewController: UIViewController {
     
     @IBAction func actionToggleMenu(_ sender: AnyObject) {
         isMenuOpen = !isMenuOpen
+        titleLabel.superview?.constraints.forEach { constraint in
+            if constraint.firstItem === titleLabel && constraint.firstAttribute == .centerX {
+                constraint.constant = isMenuOpen ? -100.0 : 0.0
+                return
+            }
+            if constraint.identifier == "TitleCenterY" {
+                constraint.isActive = false
+                let newConstraint = NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: titleLabel.superview!, attribute: .centerY, multiplier: isMenuOpen ? 0.67 : 1.0, constant: 0)
+                newConstraint.identifier = "TitleCenterY"
+                newConstraint.isActive = true
+                return
+            }
+        }
         menuHeightConstraint.constant = isMenuOpen ? 184.0 : 44.0
         titleLabel.text = isMenuOpen ? "Select Item" : "Packing List"
         
