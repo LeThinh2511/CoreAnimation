@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     
     // MARK: further UI
     
+    let info = UILabel()
     let spinner = UIActivityIndicatorView(style: .whiteLarge)
     let status = UIImageView(image: UIImage(named: "banner"))
     let label = UILabel()
@@ -71,6 +72,14 @@ class ViewController: UIViewController {
         status.addSubview(label)
         
         statusPosition = status.center
+        
+        info.frame = CGRect(x: 0.0, y: loginButton.center.y + 60.0, width: view.frame.size.width, height: 30)
+        info.backgroundColor = .clear
+        info.font = UIFont(name: "HelveticaNeue", size: 12.0)
+        info.textAlignment = .center
+        info.textColor = .white
+        info.text = "Tap on a field and enter username and password"
+        view.insertSubview(info, belowSubview: loginButton)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,6 +133,19 @@ class ViewController: UIViewController {
             self.loginButton.center.y -= 30
             self.loginButton.alpha = 1
         }, completion: nil)
+        
+        let flyLeft = CABasicAnimation(keyPath: "position.x")
+        flyLeft.fromValue = info.layer.position.x + view.frame.size.width
+        flyLeft.toValue = -info.layer.position.x
+        flyLeft.duration = 5.0
+        flyLeft.repeatCount = .infinity
+        info.layer.add(flyLeft, forKey: "infoappear")
+        
+        let fadeLabelIn = CABasicAnimation(keyPath: "opacity")
+        fadeLabelIn.fromValue = 0.2
+        fadeLabelIn.toValue = 1.0
+        fadeLabelIn.duration = 4.5
+        info.layer.add(fadeLabelIn, forKey: "fadein")
     }
     
     // MARK: further methods
