@@ -74,6 +74,13 @@ class ViewController: UIViewController {
             conWidth.constant = 0.0
             self.view.layoutIfNeeded()
         }, completion: nil)
+        
+        conBottom.constant = imageView.frame.height
+        UIView.animate(withDuration: 0.4, delay: 1.8, options: [], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            imageView.removeFromSuperview()
+        })
     }
 }
 
