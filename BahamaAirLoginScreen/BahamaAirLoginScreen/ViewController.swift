@@ -146,6 +146,8 @@ class ViewController: UIViewController {
         fadeLabelIn.toValue = 1.0
         fadeLabelIn.duration = 4.5
         info.layer.add(fadeLabelIn, forKey: "fadein")
+        username.delegate = self
+        password.delegate = self
     }
     
     // MARK: further methods
@@ -186,9 +188,9 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 0.33, delay: 0.0, options: [], animations: {
             self.status.center.x += self.view.frame.size.width
         }, completion: { _ in
-                self.status.isHidden = true
-                self.status.center = self.statusPosition
-                self.showMessage(index: index+1)
+            self.status.isHidden = true
+            self.status.center = self.statusPosition
+            self.showMessage(index: index+1)
         })
         
     }
@@ -232,5 +234,14 @@ extension ViewController: CAAnimationDelegate { func animationDidStop(_ anim: CA
         pulse.duration = 0.25
         layer?.add(pulse, forKey: nil)
     }
-  }
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let runningAnimations = info.layer.animationKeys() else {
+            return
+        }
+        info.layer.removeAnimation(forKey: "infoappear")
+    }
 }
