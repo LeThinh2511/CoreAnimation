@@ -5,6 +5,24 @@ func delay(_ seconds: Double, completion: @escaping ()->Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: completion)
 }
 
+func tintBackgroundColor(layer: CALayer, toColor: UIColor) {
+    let animation = CABasicAnimation(keyPath: "backgroundColor")
+    animation.fromValue = layer.backgroundColor
+    animation.toValue = toColor.cgColor
+    animation.duration = 1
+    layer.add(animation, forKey: nil)
+    layer.backgroundColor = toColor.cgColor
+}
+
+func roundCorners(layer: CALayer, toRadius: CGFloat) {
+    let animation = CABasicAnimation(keyPath: "cornerRadius")
+    animation.fromValue = layer.cornerRadius
+    animation.toValue = toRadius
+    animation.duration = 0.33
+    layer.add(animation, forKey: nil)
+    layer.cornerRadius = toRadius
+}
+
 class ViewController: UIViewController {
     
     // MARK: IB outlets
@@ -114,10 +132,12 @@ class ViewController: UIViewController {
         })
         UIView.animate(withDuration: 0.33, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [], animations: {
             self.loginButton.center.y += 60
-            self.loginButton.backgroundColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
             self.spinner.center = CGPoint( x: 40.0, y: self.loginButton.frame.size.height/2 )
             self.spinner.alpha = 1.0
         }, completion: nil)
+        let tintColor = UIColor(red: 0.85, green: 0.83, blue: 0.45, alpha: 1.0)
+        tintBackgroundColor(layer: loginButton.layer, toColor: tintColor)
+        roundCorners(layer: loginButton.layer, toRadius: 25.0)
     }
     
     func showMessage(index: Int) {
@@ -153,10 +173,13 @@ class ViewController: UIViewController {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
                 self.loginButton.center.y -= 60
                 self.loginButton.bounds.size.width -= 80
-                self.loginButton.backgroundColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
                 self.spinner.center = CGPoint(x: -20.0, y: 16.0)
                 self.spinner.alpha = 0
-            }, completion: nil)
+            }) { _ in
+                let tintColor = UIColor(red: 0.63, green: 0.84, blue: 0.35, alpha: 1.0)
+                tintBackgroundColor(layer: self.loginButton.layer, toColor: tintColor)
+                roundCorners(layer: self.loginButton.layer, toRadius: 10.0)
+            }
         }
     }
     
