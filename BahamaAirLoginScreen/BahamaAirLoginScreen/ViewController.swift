@@ -121,18 +121,29 @@ class ViewController: UIViewController {
         
         fadeIn.beginTime = CACurrentMediaTime() + 1.1
         cloud4.layer.add(fadeIn, forKey: nil)
-        
-        loginButton.center.y += 30
-        loginButton.alpha = 0.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let groupAnimation = CAAnimationGroup()
+        groupAnimation.beginTime = CACurrentMediaTime() + 0.5
+        groupAnimation.duration = 0.5
+        groupAnimation.fillMode = .backwards
         
-        UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: [], animations: {
-            self.loginButton.center.y -= 30
-            self.loginButton.alpha = 1
-        }, completion: nil)
+        let scaleDown = CABasicAnimation(keyPath: "transform.scale")
+        scaleDown.fromValue = 3.5
+        scaleDown.toValue = 1.0
+        
+        let rotate = CABasicAnimation(keyPath: "transform.rotation")
+        rotate.fromValue = .pi / 4.0
+        rotate.toValue = 0.0
+        
+        let fade = CABasicAnimation(keyPath: "opacity")
+        fade.fromValue = 0.0
+        fade.toValue = 1.0
+        
+        groupAnimation.animations = [scaleDown, rotate, fade]
+        loginButton.layer.add(groupAnimation, forKey: nil)
         
         let flyLeft = CABasicAnimation(keyPath: "position.x")
         flyLeft.fromValue = info.layer.position.x + view.frame.size.width
