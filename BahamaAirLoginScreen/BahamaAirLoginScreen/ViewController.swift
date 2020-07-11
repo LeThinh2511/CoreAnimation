@@ -61,14 +61,17 @@ class ViewController: UIViewController {
         flyRight.fromValue = -view.bounds.size.width/2
         flyRight.toValue = view.bounds.size.width/2
         flyRight.fillMode = .both
+        flyRight.isRemovedOnCompletion = true
         flyRight.duration = 0.5
         heading.layer.add(flyRight, forKey: nil)
         
         flyRight.beginTime = CACurrentMediaTime() + 0.3
         username.layer.add(flyRight, forKey: nil)
+        username.layer.position.x = view.bounds.size.width/2
         
         flyRight.beginTime = CACurrentMediaTime() + 0.4
         password.layer.add(flyRight, forKey: nil)
+        password.layer.position.x = view.bounds.size.width/2
         
         cloud1.alpha = 0
         cloud2.alpha = 0
