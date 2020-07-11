@@ -84,27 +84,6 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let flyRight = CABasicAnimation(keyPath: "position.x")
-        flyRight.fromValue = -view.bounds.size.width/2
-        flyRight.toValue = view.bounds.size.width/2
-        flyRight.fillMode = .both
-        flyRight.isRemovedOnCompletion = true
-        flyRight.duration = 0.5
-        flyRight.delegate = self
-        flyRight.setValue("form", forKey: "name")
-        flyRight.setValue(heading.layer, forKey: "layer")
-        heading.layer.add(flyRight, forKey: nil)
-        
-        flyRight.beginTime = CACurrentMediaTime() + 0.3
-        flyRight.setValue(username.layer, forKey: "layer")
-        username.layer.add(flyRight, forKey: nil)
-        username.layer.position.x = view.bounds.size.width/2
-        
-        flyRight.beginTime = CACurrentMediaTime() + 0.4
-        flyRight.setValue(password.layer, forKey: "layer")
-        password.layer.add(flyRight, forKey: nil)
-        password.layer.position.x = view.bounds.size.width/2
-        
         let fadeIn = CABasicAnimation(keyPath: "opacity")
         fadeIn.fromValue = 0
         fadeIn.toValue = 1
@@ -121,6 +100,31 @@ class ViewController: UIViewController {
         
         fadeIn.beginTime = CACurrentMediaTime() + 1.1
         cloud4.layer.add(fadeIn, forKey: nil)
+        
+        let groupAnimation = CAAnimationGroup()
+        groupAnimation.beginTime = CACurrentMediaTime() + 0.5
+        groupAnimation.duration = 0.5
+        groupAnimation.fillMode = .backwards
+        groupAnimation.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        
+        let fadeInAnimation = CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.fromValue = 0.25
+        fadeInAnimation.toValue = 1
+        
+        let positionAnimation = CABasicAnimation(keyPath: "position.x")
+        positionAnimation.fromValue = -view.bounds.size.width/2
+        positionAnimation.toValue = view.bounds.size.width/2
+        
+        groupAnimation.animations = [fadeInAnimation, positionAnimation]
+        groupAnimation.delegate = self
+        heading.layer.add(groupAnimation, forKey: nil)
+        groupAnimation.setValue("form", forKey: "name")
+        groupAnimation.setValue(username.layer, forKey: "layer")
+        groupAnimation.beginTime = CACurrentMediaTime() + 0.3
+        username.layer.add(groupAnimation, forKey: nil)
+        groupAnimation.setValue(password.layer, forKey: "layer")
+        groupAnimation.beginTime = CACurrentMediaTime() + 0.4
+        password.layer.add(groupAnimation, forKey: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -129,6 +133,7 @@ class ViewController: UIViewController {
         groupAnimation.beginTime = CACurrentMediaTime() + 0.5
         groupAnimation.duration = 0.5
         groupAnimation.fillMode = .backwards
+        groupAnimation.timingFunction = CAMediaTimingFunction(name: .easeIn)
         
         let scaleDown = CABasicAnimation(keyPath: "transform.scale")
         scaleDown.fromValue = 3.5
