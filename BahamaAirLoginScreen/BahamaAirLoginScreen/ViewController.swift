@@ -291,4 +291,19 @@ extension ViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         info.layer.removeAnimation(forKey: "infoappear")
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.count < 5 {
+            let jump = CASpringAnimation(keyPath: "position.y")
+            jump.initialVelocity = 100
+            jump.stiffness = 1500.0
+            jump.damping = 50.0
+            jump.mass = 10
+            jump.fromValue = textField.layer.position.y + 1.0
+            jump.toValue = textField.layer.position.y
+            jump.duration = jump.settlingDuration
+            textField.layer.add(jump, forKey: nil)
+        }
+    }
 }
