@@ -248,6 +248,12 @@ class ViewController: UIViewController {
                 roundCorners(layer: self.loginButton.layer, toRadius: 10.0)
             }
         }
+        let wobble = CAKeyframeAnimation(keyPath: "transform.rotation")
+        wobble.duration = 0.25
+        wobble.repeatCount = 4
+        wobble.values = [0.0, -.pi/4.0, 0.0, .pi/4.0, 0.0]
+        wobble.keyTimes = [0.0, 0.25, 0.5, 0.75, 1.0]
+        heading.layer.add(wobble, forKey: nil)
     }
     
     // MARK: UITextFieldDelegate
