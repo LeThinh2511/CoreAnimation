@@ -86,5 +86,14 @@ class AvatarView: UIView {
                     self.bounceOff(point: point, morphSize: morphSize)
                 }
         })
+        
+        let morphedFrame = (originalCenter.x > point.x) ? CGRect(x: 0.0, y: bounds.height - morphSize.height, width: morphSize.width, height: morphSize.height): CGRect(x: bounds.width - morphSize.width, y: bounds.height - morphSize.height, width: morphSize.width, height: morphSize.height)
+        let morphAnimation = CABasicAnimation(keyPath: "path")
+        morphAnimation.duration = animationDuration
+        morphAnimation.toValue = UIBezierPath(ovalIn:
+        morphedFrame).cgPath
+        morphAnimation.timingFunction = CAMediaTimingFunction( name: .easeOut)
+        circleLayer.add(morphAnimation, forKey: nil)
+        maskLayer.add(morphAnimation, forKey: nil)
     }
 }
