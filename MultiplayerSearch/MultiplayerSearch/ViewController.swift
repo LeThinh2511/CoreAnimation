@@ -27,14 +27,14 @@ class ViewController: UIViewController {
         let leftBouncePoint = CGPoint(x: view.frame.size.width/2.0 - bounceXOffset, y: myAvatar.center.y)
         myAvatar.bounceOff(point: rightBouncePoint, morphSize: morphSize)
         opponentAvatar.bounceOff(point: leftBouncePoint, morphSize: morphSize)
-        delay(seconds: 4.0, completion: foundOpponent)
+        delay(seconds: 3.0, completion: foundOpponent)
     }
     
     func foundOpponent() {
         status.text = "Connecting..."
         opponentAvatar.image = UIImage(named: "avatar-2")
         opponentAvatar.name = "Ray"
-        delay(seconds: 4.0, completion: connectedToOpponent)
+        delay(seconds: 3.0, completion: connectedToOpponent)
     }
     
     func connectedToOpponent() {

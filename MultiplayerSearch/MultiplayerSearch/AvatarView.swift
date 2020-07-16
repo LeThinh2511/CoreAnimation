@@ -35,6 +35,7 @@ class AvatarView: UIView {
         }
     }
     
+    var isSquare = false
     var shouldTransitionToFinishedState = false
     
     override func didMoveToWindow() {
@@ -72,20 +73,37 @@ class AvatarView: UIView {
         label.frame = CGRect(x: 0.0, y: bounds.size.height + 10.0, width: bounds.size.width, height: 24.0)
     }
     
+    func animateToSquare() {
+        isSquare = true
+        let squarePath = UIBezierPath(rect: bounds)
+        let animation = CABasicAnimation(keyPath: "path")
+        animation.toValue = squarePath
+        animation.fromValue = circleLayer.path
+        animation.duration = 0.25
+        circleLayer.add(animation, forKey: nil)
+        circleLayer.path = squarePath.cgPath
+        maskLayer.add(animation, forKey: nil)
+        maskLayer.path = squarePath.cgPath
+    }
+    
     func bounceOff(point: CGPoint, morphSize: CGSize) {
         let originalCenter = center
         UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, animations: {
             self.center = point
-        },completion: { _ in
-            //complete bounce to
+        }, completion: { _ in
+            if self.shouldTransitionToFinishedState {
+                self.animateToSquare()
+            }
         } )
         
-        UIView.animate(withDuration: animationDuration, delay: animationDuration, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0, animations: {
-            self.center = originalCenter }, completion: { _ in
-                delay(seconds: 0.1) {
-                    self.bounceOff(point: point, morphSize: morphSize)
-                }
-        })
+        if !isSquare {
+            UIView.animate(withDuration: animationDuration, delay: animationDuration, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.0, animations: {
+                self.center = originalCenter }, completion: { _ in
+                    delay(seconds: 0.1) {
+                        self.bounceOff(point: point, morphSize: morphSize)
+                    }
+            })
+        }
         
         let morphedFrame = (originalCenter.x > point.x) ? CGRect(x: 0.0, y: bounds.height - morphSize.height, width: morphSize.width, height: morphSize.height): CGRect(x: bounds.width - morphSize.width, y: bounds.height - morphSize.height, width: morphSize.width, height: morphSize.height)
         let morphAnimation = CABasicAnimation(keyPath: "path")
