@@ -8,11 +8,14 @@ class AnimatedMaskLabel: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        let colors = [UIColor.black.cgColor,
-                      UIColor.white.cgColor,
-                      UIColor.black.cgColor]
+        let colors = [UIColor.yellow.cgColor,
+                      UIColor.green.cgColor,
+                      UIColor.orange.cgColor,
+                      UIColor.cyan.cgColor,
+                      UIColor.red.cgColor,
+                      UIColor.yellow.cgColor]
         gradientLayer.colors = colors
-        let locations: [NSNumber] = [0.25, 0.5, 0.75]
+        let locations: [NSNumber] = [0, 0, 0, 0.25, 0.5, 0.75]
         gradientLayer.locations = locations
         return gradientLayer
     }()
@@ -47,8 +50,8 @@ class AnimatedMaskLabel: UIView {
         super.didMoveToWindow()
         layer.addSublayer(gradientLayer)
         let gradientAnimation = CABasicAnimation(keyPath: "locations")
-        gradientAnimation.fromValue = [0.0, 0.0, 0.25]
-        gradientAnimation.toValue = [0.75, 1.0, 1.0]
+        gradientAnimation.fromValue = [0, 0, 0, 0, 0, 0.25]
+        gradientAnimation.toValue = [0.65, 0.8, 0.85, 0.9, 0.95, 1.0]
         gradientAnimation.duration = 3.0
         gradientAnimation.repeatCount = Float.infinity
         gradientLayer.add(gradientAnimation, forKey: nil)
