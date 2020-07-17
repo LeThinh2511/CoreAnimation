@@ -20,8 +20,22 @@ class AnimatedMaskLabel: UIView {
     @IBInspectable var text: String! {
         didSet {
             setNeedsDisplay()
+            let image = UIGraphicsImageRenderer(size: bounds.size).image { _ in
+                text.draw(in: bounds, withAttributes: textAttributes)
+            }
+            let maskLayer = CALayer()
+            maskLayer.backgroundColor = UIColor.clear.cgColor
+            maskLayer.frame = bounds.offsetBy(dx: bounds.size.width, dy: 0)
+            maskLayer.contents = image.cgImage
+            gradientLayer.mask = maskLayer
         }
     }
+    
+    let textAttributes: [NSAttributedString.Key: Any] = {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        return [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Thin", size: 28.0)!, NSAttributedString.Key.paragraphStyle: style]
+    }()
     
     override func layoutSubviews() {
         gradientLayer.frame = CGRect(x: -bounds.size.width,
