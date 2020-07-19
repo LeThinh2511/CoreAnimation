@@ -98,13 +98,11 @@ class RefreshView: UIView, UIScrollViewDelegate {
         let flightAnimation = CAKeyframeAnimation(keyPath: "position")
         flightAnimation.path = ovalShapeLayer.path
         flightAnimation.calculationMode = .paced
-        let airplaneOrientationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        airplaneOrientationAnimation.fromValue = 0
-        airplaneOrientationAnimation.toValue = 2.0 * .pi
+        flightAnimation.rotationMode = .rotateAuto
         let flightAnimationGroup = CAAnimationGroup()
         flightAnimationGroup.duration = 1.5
         flightAnimationGroup.repeatDuration = 5.0
-        flightAnimationGroup.animations = [flightAnimation, airplaneOrientationAnimation]
+        flightAnimationGroup.animations = [flightAnimation]
         airplaneLayer.add(flightAnimationGroup, forKey: nil)
     }
     
