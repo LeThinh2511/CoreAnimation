@@ -13,7 +13,6 @@ class ViewController: UITableViewController, RefreshViewDelegate {
     
     // MARK: View controller methods
     override func viewDidLoad() {
-        navigationController?.navigationBar.isTranslucent = true
         self.title = "Vacation pack list"
         self.view.backgroundColor = UIColor(red: 0.0, green: 154.0/255.0, blue: 222.0/255.0, alpha: 1.0)
         self.tableView.rowHeight = 64.0

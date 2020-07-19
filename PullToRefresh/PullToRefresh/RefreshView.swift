@@ -56,12 +56,14 @@ class RefreshView: UIView, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = max(-(scrollView.contentOffset.y + scrollView.contentInset.top), 0.0)
         progress = min(max(offsetY / frame.size.height, 0.0), 1.0)
+//        print("progress \(progress) offset: \(scrollView.contentOffset.y) \(scrollView.contentInset.top)")
         if !isRefreshing {
             redrawFromProgress(self.progress)
         }
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        print("Velocity: \(velocity.x) \(velocity.y)")
         if !isRefreshing && self.progress >= 1.0 {
             delegate?.refreshViewDidRefresh(self)
             beginRefreshing()
@@ -74,10 +76,24 @@ class RefreshView: UIView, UIScrollViewDelegate {
         isRefreshing = true
         UIView.animate(withDuration: 0.3) {
             var newInsets = self.scrollView.contentInset
-            print("new: \(newInsets.top) ")
             newInsets.top += self.frame.size.height
             self.scrollView.contentInset = newInsets
         }
+        let strokeStartAnimation = CABasicAnimation(
+          keyPath: "strokeStart")
+        strokeStartAnimation.fromValue = -0.5
+        strokeStartAnimation.toValue = 1.0
+        let strokeEndAnimation = CABasicAnimation(
+          keyPath: "strokeEnd")
+        strokeEndAnimation.fromValue = 0.0
+        strokeEndAnimation.toValue = 1.0
+        
+        let strokeAnimationGroup = CAAnimationGroup()
+        strokeAnimationGroup.duration = 1.5
+        strokeAnimationGroup.repeatDuration = 5.0
+        strokeAnimationGroup.animations =
+        [strokeStartAnimation, strokeEndAnimation]
+        ovalShapeLayer.add(strokeAnimationGroup, forKey: nil)
     }
     
     func endRefreshing() {
