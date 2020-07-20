@@ -48,15 +48,28 @@ class ViewController: UIViewController {
     
     @IBAction func actionEndMonitoring(_ sender: AnyObject) {
         monitor.stopMonitoring()
-        dot.removeAllAnimations()
+        let initialScale = CABasicAnimation(keyPath: "transform.scale.y")
+        initialScale.toValue = 1
+        initialScale.duration = 0.5
+        initialScale.isRemovedOnCompletion = false
+        initialScale.fillMode = .forwards
+        dot.add(initialScale, forKey: nil)
+        
+        let background = CABasicAnimation(keyPath: "backgroundColor")
+        background.fromValue = UIColor.green.cgColor
+        background.toValue = UIColor.magenta.cgColor
+        background.duration = 1.5
+        background.isRemovedOnCompletion = false
+        dot.add(background, forKey: "dotBackground")
         
         //speak after 1 second
-        delay(seconds: 1.0) {
+        delay(seconds: 1.5) {
             self.startSpeaking()
         }
     }
     
     func startSpeaking() {
+        dot.removeAnimation(forKey: "dotBackground")
         meterLabel.text = assistant.randomAnswer()
         assistant.speak(meterLabel.text!, completion: endSpeaking)
         speakButton.isHidden = true
