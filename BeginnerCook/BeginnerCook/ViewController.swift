@@ -8,21 +8,21 @@ class ViewController: UIViewController {
     @IBOutlet var bgImage: UIImageView!
     var selectedImage: UIImageView?
     
-    //MARK: UIViewController
+    let transition = PopAnimator()
     
+    //MARK: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if listView.subviews.count < herbs.count {
-            listView.viewWithTag(0)?.tag = 1000 //prevent confusion when looking up images
+            while let view = listView.viewWithTag(0) {
+                view.tag = 1000
+            }
             setupList()
         }
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -33,10 +33,7 @@ class ViewController: UIViewController {
     
     //add all images to the list
     func setupList() {
-        
         for i in herbs.indices {
-            
-            //create image view
             let imageView  = UIImageView(image: UIImage(named: herbs[i].image))
             imageView.tag = i
             imageView.contentMode = .scaleAspectFill
@@ -44,8 +41,6 @@ class ViewController: UIViewController {
             imageView.layer.cornerRadius = 20.0
             imageView.layer.masksToBounds = true
             listView.addSubview(imageView)
-            
-            //attach tap detector
             imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
         }
         
@@ -64,27 +59,30 @@ class ViewController: UIViewController {
         
         for i in herbs.indices {
             let imageView = listView.viewWithTag(i) as! UIImageView
-            imageView.frame = CGRect(
-                x: CGFloat(i) * itemWidth + CGFloat(i+1) * horizontalPadding, y: 0.0,
-                width: itemWidth, height: itemHeight)
+            imageView.frame = CGRect(x: CGFloat(i) * itemWidth + CGFloat(i+1) * horizontalPadding, y: 0.0, width: itemWidth, height: itemHeight)
         }
         
-        listView.contentSize = CGSize(
-            width: CGFloat(herbs.count) * (itemWidth + horizontalPadding) + horizontalPadding,
-            height:  0)
+        listView.contentSize = CGSize( width: CGFloat(herbs.count) * (itemWidth + horizontalPadding) + horizontalPadding, height:  0)
     }
     
     //MARK: Actions
-    
     @objc func didTapImageView(_ tap: UITapGestureRecognizer) {
         selectedImage = tap.view as? UIImageView
-        
         let index = tap.view!.tag
         let selectedHerb = herbs[index]
-        
-        //present details view controller
         let herbDetails = storyboard!.instantiateViewController(withIdentifier: "HerbDetailsViewController") as! HerbDetailsViewController
         herbDetails.herb = selectedHerb
+        herbDetails.transitioningDelegate = self
         present(herbDetails, animated: true, completion: nil)
+    }
+}
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+      return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return nil
     }
 }
