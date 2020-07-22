@@ -49,6 +49,7 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             herbViewController.containerView.alpha = finalAlpha
             herbView.transform = self.presenting ? CGAffineTransform.identity : scaleTransform
             herbView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+            herbView.layer.cornerRadius = self.presenting ? 0.0 : 20.0/xScaleFactor
         }, completion: { _ in
             if !self.presenting {
                 self.dismissCompletion?()
