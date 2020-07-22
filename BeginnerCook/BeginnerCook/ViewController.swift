@@ -18,6 +18,14 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { context in
+            self.bgImage.alpha = (size.width > size.height) ? 0.25 : 0.55
+            self.positionListItems()
+        }, completion: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if listView.subviews.count < herbs.count {
