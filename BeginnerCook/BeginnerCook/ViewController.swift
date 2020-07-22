@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     //MARK: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
+        transition.dismissCompletion = {
+            self.selectedImage!.isHidden = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,7 +64,6 @@ class ViewController: UIViewController {
             let imageView = listView.viewWithTag(i) as! UIImageView
             imageView.frame = CGRect(x: CGFloat(i) * itemWidth + CGFloat(i+1) * horizontalPadding, y: 0.0, width: itemWidth, height: itemHeight)
         }
-        
         listView.contentSize = CGSize( width: CGFloat(herbs.count) * (itemWidth + horizontalPadding) + horizontalPadding, height:  0)
     }
     
@@ -86,6 +88,7 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return nil
+         transition.presenting = false
+        return transition
     }
 }
