@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3273207C24C9D2D5004E0741 /* RevealAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3273207B24C9D2D5004E0741 /* RevealAnimator.swift */; };
 		9C967C5E1A4F1B6C00A588A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C967C5D1A4F1B6C00A588A2 /* AppDelegate.swift */; };
 		9C967C601A4F1B6C00A588A2 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C967C5F1A4F1B6C00A588A2 /* MasterViewController.swift */; };
 		9C967C621A4F1B6C00A588A2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C967C611A4F1B6C00A588A2 /* DetailViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3273207B24C9D2D5004E0741 /* RevealAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevealAnimator.swift; sourceTree = "<group>"; };
 		9C967C581A4F1B6C00A588A2 /* LogoReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LogoReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C967C5C1A4F1B6C00A588A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C967C5D1A4F1B6C00A588A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		9C967C5A1A4F1B6C00A588A2 /* LogoReveal */ = {
 			isa = PBXGroup;
 			children = (
+				3273207B24C9D2D5004E0741 /* RevealAnimator.swift */,
 				9C967C5F1A4F1B6C00A588A2 /* MasterViewController.swift */,
 				9C967C611A4F1B6C00A588A2 /* DetailViewController.swift */,
 				9C967C801A4F1F6100A588A2 /* RWLogoLayer.swift */,
@@ -119,6 +122,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -154,6 +158,7 @@
 				9C967C621A4F1B6C00A588A2 /* DetailViewController.swift in Sources */,
 				9C967C601A4F1B6C00A588A2 /* MasterViewController.swift in Sources */,
 				9C967C5E1A4F1B6C00A588A2 /* AppDelegate.swift in Sources */,
+				3273207C24C9D2D5004E0741 /* RevealAnimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
