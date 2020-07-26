@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32CACD2024CDC3A400776BE3 /* AnimatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CACD1F24CDC3A400776BE3 /* AnimatorFactory.swift */; };
 		9C125E081DAEEFBF00E352C1 /* IconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C125E071DAEEFBF00E352C1 /* IconCell.swift */; };
 		9C5513E41DB2619E0085E8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C5513E31DB2619E0085E8A7 /* Assets.xcassets */; };
 		9C7446771DB2995E0075364A /* WidgetsOwnerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7446761DB2995E0075364A /* WidgetsOwnerProtocol.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32CACD1F24CDC3A400776BE3 /* AnimatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatorFactory.swift; sourceTree = "<group>"; };
 		9C125E071DAEEFBF00E352C1 /* IconCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconCell.swift; sourceTree = "<group>"; };
 		9C5513E31DB2619E0085E8A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C7446761DB2995E0075364A /* WidgetsOwnerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetsOwnerProtocol.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				9C9E23F71DAD251B004749FD /* LockScreenViewController.swift */,
 				9CF4C0F41DAE912000F4E30A /* FooterCell.swift */,
 				9C7446761DB2995E0075364A /* WidgetsOwnerProtocol.swift */,
+				32CACD1F24CDC3A400776BE3 /* AnimatorFactory.swift */,
 			);
 			name = "Lock Screen View Controller";
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -194,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CF4C0F11DAE5D0900F4E30A /* SettingsViewController.swift in Sources */,
+				32CACD2024CDC3A400776BE3 /* AnimatorFactory.swift in Sources */,
 				9C7446771DB2995E0075364A /* WidgetsOwnerProtocol.swift in Sources */,
 				9CF4C0F51DAE912000F4E30A /* FooterCell.swift in Sources */,
 				9C125E081DAEEFBF00E352C1 /* IconCell.swift in Sources */,
