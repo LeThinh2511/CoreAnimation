@@ -8,11 +8,16 @@
 
 import UIKit
 
-class RevealAnimator: NSObject, UIViewControllerAnimatedTransitioning, CAAnimationDelegate {
+class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning, CAAnimationDelegate {
     let animationDuration = 2.0
     var operation: UINavigationController.Operation = .push
+    var interactive = false
     weak var storedContext: UIViewControllerContextTransitioning?
 
+    func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        
+    }
+    
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
       return animationDuration
     }
@@ -67,9 +72,6 @@ class RevealAnimator: NSObject, UIViewControllerAnimatedTransitioning, CAAnimati
                 fromVC.logo.removeAllAnimations()
                 let toVC = context.viewController(forKey: .to) as! DetailViewController
                 toVC.view.layer.mask = nil
-            } else {
-                let fromView = context.view(forKey: .from)!
-                let toView = context.view(forKey: .to)!
             }
         }
         storedContext = nil

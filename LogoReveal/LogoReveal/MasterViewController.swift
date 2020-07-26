@@ -33,6 +33,13 @@ class MasterViewController: UIViewController {
     //
     
     @objc func didPan(_ recognizer: UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            transition.interactive = true
+            performSegue(withIdentifier: "details", sender: nil)
+          default:
+            transition.handlePan(recognizer)
+        }
     }
 }
 
@@ -40,6 +47,14 @@ extension MasterViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.operation = operation
         return transition
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        if !transition.interactive {
+            return nil
+        } else {
+            return transition
+        }
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
