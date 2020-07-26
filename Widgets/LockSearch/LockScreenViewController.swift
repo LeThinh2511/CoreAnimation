@@ -29,13 +29,17 @@ class LockScreenViewController: UIViewController {
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    let scale = UIViewPropertyAnimator(duration: 0.33, curve: .easeIn)
+    let scale = UIViewPropertyAnimator(duration: 3, curve: .easeIn)
     scale.addAnimations {
       self.tableView.alpha = 1.0
     }
     scale.addAnimations({
       self.tableView.transform = .identity
     }, delayFactor: 0.33)
+    scale.addCompletion { _ in
+      print("Ready")
+    }
+    scale.startAnimation()
   }
   
   override func viewWillLayoutSubviews() {
