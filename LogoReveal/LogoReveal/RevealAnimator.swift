@@ -22,6 +22,13 @@ class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnim
         switch recognizer.state {
         case .changed:
             update(progress)
+        case .cancelled, .ended:
+            if progress < 0.5 {
+                cancel()
+            } else {
+                finish()
+            }
+            interactive = false
         default:
             break
         }
@@ -31,6 +38,22 @@ class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnim
         super.update(percentComplete)
         let animationProgress = TimeInterval(animationDuration) * TimeInterval(percentComplete)
         storedContext?.containerView.layer.timeOffset = pausedTime + animationProgress
+    }
+    
+    override func cancel() {
+        restart(forFinishing: false)
+        super.cancel()
+    }
+    override func finish() {
+        restart(forFinishing: true)
+        super.finish()
+        
+    }
+    
+    private func restart(forFinishing: Bool) {
+        let transitionLayer = storedContext?.containerView.layer
+        transitionLayer?.beginTime = CACurrentMediaTime()
+        transitionLayer?.speed = forFinishing ? 1 : -1
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
