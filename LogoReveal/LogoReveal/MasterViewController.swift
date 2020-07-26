@@ -12,7 +12,6 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Start"
-        navigationController?.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,6 +35,7 @@ class MasterViewController: UIViewController {
         switch recognizer.state {
         case .began:
             transition.interactive = true
+            navigationController?.delegate = self
             performSegue(withIdentifier: "details", sender: nil)
           default:
             transition.handlePan(recognizer)

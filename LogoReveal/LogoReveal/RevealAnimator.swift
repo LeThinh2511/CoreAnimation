@@ -9,15 +9,15 @@
 import UIKit
 
 class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnimatedTransitioning, CAAnimationDelegate {
-    let animationDuration = 2.0
+    let animationDuration = 1.0
     var operation: UINavigationController.Operation = .push
     var interactive = false
     private var pausedTime: CFTimeInterval = 0
     weak var storedContext: UIViewControllerContextTransitioning?
-
+    
     func handlePan(_ recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: recognizer.view!.superview!)
-        var progress: CGFloat = abs(translation.x / 200.0)
+        var progress: CGFloat = abs(translation.x / 100.0)
         progress = min(max(progress, 0.01), 0.99)
         switch recognizer.state {
         case .changed:
@@ -44,6 +44,7 @@ class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnim
         restart(forFinishing: false)
         super.cancel()
     }
+    
     override func finish() {
         restart(forFinishing: true)
         super.finish()
@@ -57,7 +58,7 @@ class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnim
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-      return animationDuration
+        return animationDuration
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -78,7 +79,7 @@ class RevealAnimator: UIPercentDrivenInteractiveTransition, UIViewControllerAnim
             let animation = CABasicAnimation(keyPath: "transform")
             animation.fromValue = NSValue(caTransform3D: CATransform3DIdentity)
             animation.toValue =
-              NSValue(caTransform3D: CATransform3DConcat(CATransform3DMakeTranslation(0.0, -10.0, 0.0), CATransform3DMakeScale(150.0, 150.0, 1.0)))
+                NSValue(caTransform3D: CATransform3DConcat(CATransform3DMakeTranslation(0.0, -10.0, 0.0), CATransform3DMakeScale(150.0, 150.0, 1.0)))
             animation.duration = animationDuration
             animation.delegate = self
             animation.fillMode = .forwards
