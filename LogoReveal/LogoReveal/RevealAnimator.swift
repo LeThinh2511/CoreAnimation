@@ -47,16 +47,30 @@ class RevealAnimator: NSObject, UIViewControllerAnimatedTransitioning, CAAnimati
             toVC.view.layer.add(fadeIn, forKey: nil)
             maskLayer.add(animation, forKey: nil)
             fromVC.logo.add(animation, forKey: nil)
+        } else {
+            let fromView = transitionContext.view(forKey: .from)!
+            let toView = transitionContext.view(forKey: .to)!
+            transitionContext.containerView.insertSubview(toView, belowSubview: fromView)
+            let scale = CABasicAnimation(keyPath: "transform")
+            scale.toValue = NSValue(caTransform3D: CATransform3DMakeScale(0.01, 0.01, 1))
+            scale.duration = animationDuration
+            scale.delegate = self
+            fromView.layer.add(scale, forKey: nil)
         }
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if let context = storedContext {
             context.completeTransition(!context.transitionWasCancelled)
-            let fromVC = context.viewController(forKey: .from) as! MasterViewController
-            fromVC.logo.removeAllAnimations()
-            let toVC = context.viewController(forKey: .to) as! DetailViewController
-            toVC.view.layer.mask = nil
+            if operation == .push {
+                let fromVC = context.viewController(forKey: .from) as! MasterViewController
+                fromVC.logo.removeAllAnimations()
+                let toVC = context.viewController(forKey: .to) as! DetailViewController
+                toVC.view.layer.mask = nil
+            } else {
+                let fromView = context.view(forKey: .from)!
+                let toView = context.view(forKey: .to)!
+            }
         }
         storedContext = nil
     }
