@@ -23,6 +23,15 @@ class LockScreenViewController: UIViewController {
     tableView.rowHeight = UITableView.automaticDimension
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    tableView.transform = CGAffineTransform(scaleX: 0.67, y: 0.67)
+    tableView.alpha = 0
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    let scale = UIViewPropertyAnimator(duration: 0.33, curve: .easeIn)
+  }
+  
   override func viewWillLayoutSubviews() {
     blurView.frame = view.bounds
   }
