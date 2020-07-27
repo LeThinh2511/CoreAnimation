@@ -40,12 +40,38 @@ class LockScreenViewController: UIViewController {
     return .lightContent
   }
   
+  func toggleBlur(_ blurred: Bool) {
+    UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0.1, options: .curveEaseOut, animations: {
+      self.blurView.alpha = blurred ? 1 : 0
+    }, completion: nil)
+  }
+  
   @IBAction func presentSettings(_ sender: Any? = nil) {
     //present the view controller
     settingsController = storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as? SettingsViewController
     present(settingsController, animated: true, completion: nil)
   }
   
+}
+
+extension LockScreenViewController: UISearchBarDelegate {
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    toggleBlur(true)
+  }
+  
+  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    toggleBlur(false)
+  }
+  
+  func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
+    searchBar.resignFirstResponder()
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchText.isEmpty {
+      searchBar.resignFirstResponder()
+    }
+  }
 }
 
 extension LockScreenViewController: WidgetsOwnerProtocol { }
