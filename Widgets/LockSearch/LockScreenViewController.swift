@@ -41,9 +41,7 @@ class LockScreenViewController: UIViewController {
   }
   
   func toggleBlur(_ blurred: Bool) {
-    UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0.1, options: .curveEaseOut, animations: {
-      self.blurView.alpha = blurred ? 1 : 0
-    }, completion: nil)
+    AnimatorFactory.fade(view: blurView, visible: blurred)
   }
   
   @IBAction func presentSettings(_ sender: Any? = nil) {
