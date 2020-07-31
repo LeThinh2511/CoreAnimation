@@ -19,11 +19,14 @@ class LockScreenViewController: UIViewController {
     
     tableView.estimatedRowHeight = 130.0
     tableView.rowHeight = UITableView.automaticDimension
+    AnimatorFactory.animateConstraint(view: view, constraint: dateTopConstraint, by: 100).startAnimation()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     tableView.transform = CGAffineTransform(scaleX: 0.67, y: 0.67)
     tableView.alpha = 0
+    dateTopConstraint.constant -= 100
+    view.layoutIfNeeded()
   }
   
   override func viewDidAppear(_ animated: Bool) {
