@@ -35,11 +35,18 @@ class WidgetCell: UITableViewCell {
       }, completion: nil)
     }
     
-    let spring = UISpringTimingParameters(mass: 30, stiffness: 1000, damping: 300, initialVelocity: CGVector(dx: 5, dy: 0))
-    toggleHeightAnimator = UIViewPropertyAnimator(duration: 0.0, timingParameters: spring)
-    toggleHeightAnimator?.addAnimations(animations)
-    toggleHeightAnimator?.addAnimations(textTransition, delayFactor: 0.5)
-    toggleHeightAnimator?.startAnimation()
+    if let animator = toggleHeightAnimator, animator.isRunning {
+      animator.pauseAnimation()
+      animator.addAnimations(animations)
+      animator.addAnimations(textTransition, delayFactor: 0.5)
+      animator.continueAnimation(withTimingParameters: nil, durationFactor: 1)
+    } else {
+      let spring = UISpringTimingParameters(mass: 30, stiffness: 1000, damping: 300, initialVelocity: CGVector.zero)
+      toggleHeightAnimator = UIViewPropertyAnimator(duration: 0.0, timingParameters: spring)
+      toggleHeightAnimator?.addAnimations(animations)
+      toggleHeightAnimator?.addAnimations(textTransition, delayFactor: 0.5)
+      toggleHeightAnimator?.startAnimation()
+    }
     widgetView.expanded = showsMore
     widgetView.reload()
   }
