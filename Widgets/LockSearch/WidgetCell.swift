@@ -19,12 +19,20 @@ class WidgetCell: UITableViewCell {
   }
   
   @IBAction func toggleShowMore(_ sender: UIButton) {
-
     self.showsMore = !self.showsMore
-
-    self.widgetHeight.constant = self.showsMore ? 230 : 130
-    self.tableView?.reloadData()
-
+    let animations = {
+      self.widgetHeight.constant = self.showsMore ? 230 : 130
+      if let tableView = self.tableView {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        tableView.layoutIfNeeded()
+      }
+    }
+    
+    let spring = UISpringTimingParameters(mass: 30, stiffness: 1000, damping: 300, initialVelocity: CGVector(dx: 5, dy: 0))
+    toggleHeightAnimator = UIViewPropertyAnimator(duration: 0.0, timingParameters: spring)
+    toggleHeightAnimator?.addAnimations(animations)
+    toggleHeightAnimator?.startAnimation()
     widgetView.expanded = showsMore
     widgetView.reload()
   }
