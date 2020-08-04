@@ -7,6 +7,10 @@ class LockScreenViewController: UIViewController {
   @IBOutlet weak var dateTopConstraint: NSLayoutConstraint!
   
   let blurView = UIVisualEffectView(effect: nil)
+  var startFrame: CGRect?
+  var previewView: UIView?
+  var previewAnimator: UIViewPropertyAnimator?
+  let previewEffectView = IconEffectView(blur: .extraLight)
   
   var settingsController: SettingsViewController!
   
@@ -53,6 +57,12 @@ class LockScreenViewController: UIViewController {
     }
   }
   
+  func addEffectView(below forView: UIView) {
+    previewEffectView.removeFromSuperview()
+    previewEffectView.frame = forView.frame
+    forView.superview?.insertSubview(previewEffectView, belowSubview: forView)
+  }
+  
   @IBAction func presentSettings(_ sender: Any? = nil) {
     //present the view controller
     settingsController = storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as? SettingsViewController
@@ -81,7 +91,36 @@ extension LockScreenViewController: UISearchBarDelegate {
   }
 }
 
-extension LockScreenViewController: WidgetsOwnerProtocol { }
+extension LockScreenViewController: WidgetsOwnerProtocol {
+  func startPreview(for forView: UIView) {
+    previewView?.removeFromSuperview()
+    previewView = forView.snapshotView(afterScreenUpdates: false)
+    view.insertSubview(previewView!, aboveSubview: blurView)
+    previewView?.frame = forView.convert(forView.bounds, to: view)
+    startFrame = previewView?.frame
+    addEffectView(below: previewView!)
+    previewAnimator = AnimatorFactory.grow(view: previewEffectView, blurView: blurView)
+  }
+  
+  func updatePreview(percent: CGFloat) {
+    previewAnimator?.fractionComplete = max(0.01, min(0.99, percent))
+  }
+  
+  func cancelPreview() {
+    if let previewAnimator = previewAnimator {
+      previewAnimator.isReversed = true
+      previewAnimator.startAnimation()
+      previewAnimator.addCompletion { position in
+        switch position {
+        case .start:
+          self.previewView?.removeFromSuperview()
+          self.previewEffectView.removeFromSuperview()
+        default: break
+        }
+      }
+    }
+  }
+}
 
 extension LockScreenViewController: UITableViewDataSource {
   

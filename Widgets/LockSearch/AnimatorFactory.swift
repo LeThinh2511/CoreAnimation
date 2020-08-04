@@ -63,4 +63,32 @@ class AnimatorFactory {
     }
     return animator
   }
+  
+  static func grow(view: UIVisualEffectView, blurView: UIVisualEffectView) -> UIViewPropertyAnimator {
+    view.contentView.alpha = 0
+    view.transform = .identity
+    let animator = UIViewPropertyAnimator(duration: 0.5, curve: .easeIn)
+    animator.addAnimations {
+      blurView.effect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+      view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+    }
+    animator.addCompletion { position in
+      switch position {
+      case .start: blurView.effect = nil
+      case .end:
+        blurView.effect = UIBlurEffect(style: .dark)
+      default: break
+      }
+    }
+    return animator
+  }
+  
+  static func reset(frame: CGRect, view: UIVisualEffectView, blurView: UIVisualEffectView) -> UIViewPropertyAnimator {
+    return UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.7) {
+      view.transform = .identity
+      view.frame = frame
+      view.contentView.alpha = 0
+      blurView.effect = nil
+    }
+  }
 }
