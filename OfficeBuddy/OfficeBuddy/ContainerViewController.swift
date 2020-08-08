@@ -68,7 +68,9 @@ class ContainerViewController: UIViewController {
         case .began:
             let isOpen = floor(centerViewController.view.frame.origin.x/menuWidth)
             isOpening = isOpen == 1.0 ? false: true
-            
+            menuViewController.view.layer.shouldRasterize = true
+            menuViewController.view.layer.rasterizationScale =
+            UIScreen.main.scale
         case .changed:
             setMenu(toPercent: isOpening ? progress: (1.0 - progress))
             
@@ -85,6 +87,7 @@ class ContainerViewController: UIViewController {
             UIView.animate(withDuration: animationTime, animations: {
                 self.setMenu(toPercent: targetProgress)
             }, completion: {_ in
+                self.menuViewController.view.layer.shouldRasterize = false
             })
         default: break
         }
