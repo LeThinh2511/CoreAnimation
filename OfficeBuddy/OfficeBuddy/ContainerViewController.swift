@@ -54,6 +54,7 @@ class ContainerViewController: UIViewController {
         
         let panGesture = UIPanGestureRecognizer(target:self, action:#selector(ContainerViewController.handleGesture(_:)))
         view.addGestureRecognizer(panGesture)
+        setMenu(toPercent: 0.0)
     }
     
     @objc func handleGesture(_ recognizer: UIPanGestureRecognizer) {
@@ -103,5 +104,6 @@ class ContainerViewController: UIViewController {
     func setMenu(toPercent percent: CGFloat) {
         centerViewController.view.frame.origin.x = menuWidth * CGFloat(percent)
         menuViewController.view.layer.transform = menuTransform(percent: percent)
+        menuViewController.view.alpha = CGFloat(max(0.2, percent))
     }
 }
