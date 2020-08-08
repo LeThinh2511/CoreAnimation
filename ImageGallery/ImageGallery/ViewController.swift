@@ -3,6 +3,8 @@ import QuartzCore
 
 class ViewController: UIViewController {
     
+    var isGalleryOpen = false
+    
     let images = [
         ImageViewCard(imageNamed: "Hurricane_Katia.jpg", title: "Hurricane Katia"),
         ImageViewCard(imageNamed: "Hurricane_Douglas.jpg", title: "Hurricane Douglas"),
@@ -58,9 +60,26 @@ class ViewController: UIViewController {
                 })
             }
         }
+        isGalleryOpen = false
     }
     
     @IBAction func toggleGallery(_ sender: AnyObject) {
+        if isGalleryOpen {
+            for subview in view.subviews {
+                guard let image = subview as? ImageViewCard else {
+                    continue
+                }
+                let imageTransform = CATransform3DIdentity
+                let animation = CABasicAnimation(keyPath: "transform")
+                animation.fromValue = NSValue(caTransform3D: image.layer.transform)
+                animation.toValue = NSValue(caTransform3D: imageTransform)
+                animation.duration = 0.33
+                image.layer.add(animation, forKey: nil)
+                image.layer.transform = imageTransform
+            }
+            isGalleryOpen = false
+            return
+        }
         var imageYOffset: CGFloat = 50.0
         for subview in view.subviews {
             guard let image = subview as? ImageViewCard else {
@@ -78,5 +97,6 @@ class ViewController: UIViewController {
             image.layer.transform = imageTransform
             imageYOffset += view.frame.height / CGFloat(images.count)
         }
+        isGalleryOpen = true
     }
 }
