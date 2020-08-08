@@ -37,8 +37,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func toggleGallery(_ sender: AnyObject) {
-        
-        
+        var imageYOffset: CGFloat = 50.0
+        for subview in view.subviews {
+            guard let image = subview as? ImageViewCard else {
+                continue
+            }
+            var imageTransform = CATransform3DIdentity
+            imageTransform = CATransform3DTranslate(imageTransform, 0.0, imageYOffset, 0.0)
+            imageTransform = CATransform3DScale(imageTransform, 0.95, 0.6, 1.0)
+            imageTransform = CATransform3DRotate(imageTransform, .pi/8, -1.0, 0.0, 0.0)
+            image.layer.transform = imageTransform
+            imageYOffset += view.frame.height / CGFloat(images.count)
+        }
     }
-    
 }
