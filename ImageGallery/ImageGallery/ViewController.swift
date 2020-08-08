@@ -25,7 +25,15 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        for image in images {
+            image.layer.anchorPoint.y = 0.0
+            image.frame = view.bounds
+            view.addSubview(image)
+        }
+        navigationItem.title = images.last?.title
+        var perspective = CATransform3DIdentity
+        perspective.m34 = -1.0/250.0
+        view.layer.sublayerTransform = perspective
     }
     
     @IBAction func toggleGallery(_ sender: AnyObject) {
