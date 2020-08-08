@@ -4,7 +4,7 @@ import QuartzCore
 class ContainerViewController: UIViewController {
     
     let menuWidth: CGFloat = 80.0
-    let animationTime: TimeInterval = 5
+    let animationTime: TimeInterval = 2
     
     let menuViewController: UIViewController
     let centerViewController: UINavigationController
@@ -48,6 +48,7 @@ class ContainerViewController: UIViewController {
         view.addSubview(menuViewController.view)
         menuViewController.didMove(toParent: self)
         
+        menuViewController.view.layer.anchorPoint.x = 1.0
         menuViewController.view.frame = CGRect(x: -menuWidth, y: 0, width: menuWidth, height: view.frame.height)
         (menuViewController as! SideMenuViewController).headerHeight = centerViewController.navigationBar.frame.size.height
         
