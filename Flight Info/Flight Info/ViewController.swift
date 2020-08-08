@@ -47,6 +47,12 @@ class ViewController: UIViewController {
         
         //start rotating the flights
         changeFlight(to: londonToParis, animated: true)
+        
+        let rect = CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: 50.0)
+        let emitter = CAEmitterLayer()
+        emitter.frame = rect
+        view.layer.addSublayer(emitter)
+        emitter.emitterShape = CAEmitterLayerEmitterShape.rectangle
     }
     
     //MARK: custom methods
