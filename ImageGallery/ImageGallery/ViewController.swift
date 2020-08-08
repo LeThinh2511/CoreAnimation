@@ -29,11 +29,35 @@ class ViewController: UIViewController {
             image.layer.anchorPoint.y = 0.0
             image.frame = view.bounds
             view.addSubview(image)
+            image.didSelect = selectImage
         }
         navigationItem.title = images.last?.title
         var perspective = CATransform3DIdentity
         perspective.m34 = -1.0/250.0
         view.layer.sublayerTransform = perspective
+    }
+    
+    func selectImage(selectedImage: ImageViewCard) {
+        for subview in view.subviews {
+            guard let image = subview as? ImageViewCard else {
+                continue
+            }
+            if image === selectedImage {
+                UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseIn, animations: {
+                    image.layer.transform = CATransform3DIdentity
+                }, completion: { _ in
+                    self.view.bringSubviewToFront(image)
+                    self.navigationItem.title = selectedImage.title
+                })
+            } else {
+                UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseIn, animations: {
+                    image.alpha = 0.0
+                }, completion: { _ in
+                    image.alpha = 1.0
+                    image.layer.transform = CATransform3DIdentity
+                })
+            }
+        }
     }
     
     @IBAction func toggleGallery(_ sender: AnyObject) {
