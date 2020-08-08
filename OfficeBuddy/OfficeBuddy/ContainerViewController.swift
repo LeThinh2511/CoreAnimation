@@ -4,7 +4,7 @@ import QuartzCore
 class ContainerViewController: UIViewController {
     
     let menuWidth: CGFloat = 80.0
-    let animationTime: TimeInterval = 0.5
+    let animationTime: TimeInterval = 5
     
     let menuViewController: UIViewController
     let centerViewController: UINavigationController
@@ -23,6 +23,16 @@ class ContainerViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    func menuTransform(percent: CGFloat) -> CATransform3D {
+        var identity = CATransform3DIdentity
+        identity.m34 = -1.0/1000
+        let remainingPercent = 1.0 - percent
+        let angle = remainingPercent * .pi * -0.5
+        let rotationTransform = CATransform3DRotate(identity, angle, 0.0, 1.0, 0.0)
+        let translationTransform = CATransform3DMakeTranslation(menuWidth * percent, 0, 0)
+        return CATransform3DConcat(rotationTransform, translationTransform)
     }
     
     override func viewDidLoad() {
@@ -91,7 +101,6 @@ class ContainerViewController: UIViewController {
     
     func setMenu(toPercent percent: CGFloat) {
         centerViewController.view.frame.origin.x = menuWidth * CGFloat(percent)
-        menuViewController.view.frame.origin.x = menuWidth * CGFloat(percent) - menuWidth
+        menuViewController.view.layer.transform = menuTransform(percent: percent)
     }
-    
 }
