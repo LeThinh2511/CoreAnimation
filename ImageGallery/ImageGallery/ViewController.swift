@@ -46,6 +46,11 @@ class ViewController: UIViewController {
             imageTransform = CATransform3DTranslate(imageTransform, 0.0, imageYOffset, 0.0)
             imageTransform = CATransform3DScale(imageTransform, 0.95, 0.6, 1.0)
             imageTransform = CATransform3DRotate(imageTransform, .pi/8, -1.0, 0.0, 0.0)
+            let animation = CABasicAnimation(keyPath: "transform")
+            animation.fromValue = NSValue(caTransform3D: image.layer.transform)
+            animation.toValue = NSValue(caTransform3D: imageTransform)
+            animation.duration = 0.33
+            image.layer.add(animation, forKey: nil)
             image.layer.transform = imageTransform
             imageYOffset += view.frame.height / CGFloat(images.count)
         }
