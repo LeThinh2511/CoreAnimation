@@ -54,6 +54,10 @@ class ViewController: UIViewController {
         emitterCell.birthRate = 20
         emitterCell.lifetime = 3.5
         emitter.emitterCells = [emitterCell]
+        emitterCell.yAcceleration = 70.0
+        emitterCell.xAcceleration = 10.0
+        emitterCell.velocity = 20.0
+        emitterCell.emissionLongitude = .pi * -0.5
     }
     
     //MARK: custom methods
