@@ -53,6 +53,8 @@ class ViewController: UIViewController {
         emitter.frame = rect
         view.layer.addSublayer(emitter)
         emitter.emitterShape = CAEmitterLayerEmitterShape.rectangle
+        emitter.emitterPosition = CGPoint(x: rect.width/2, y: rect.height/2)
+        emitter.emitterSize = rect.size
     }
     
     //MARK: custom methods
