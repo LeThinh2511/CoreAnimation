@@ -27,8 +27,6 @@ class ViewController: UIViewController {
     @IBOutlet var flightStatus: UILabel!
     @IBOutlet var statusBanner: UIImageView!
     
-    var snowView: SnowView!
-    
     //MARK: view controller methods
     
     override func viewDidLoad() {
@@ -37,12 +35,8 @@ class ViewController: UIViewController {
         //adjust ui
         summary.addSubview(summaryIcon)
         summaryIcon.center.y = summary.frame.size.height/2
-        
-        //add the snow effect layer
-        snowView = SnowView(frame: CGRect(x: -150, y:-100, width: 300, height: 50))
         let snowClipView = UIView(frame: view.frame.offsetBy(dx: 0, dy: 50))
         snowClipView.clipsToBounds = true
-        snowClipView.addSubview(snowView)
         view.addSubview(snowClipView)
         
         //start rotating the flights
@@ -55,6 +49,11 @@ class ViewController: UIViewController {
         emitter.emitterShape = CAEmitterLayerEmitterShape.rectangle
         emitter.emitterPosition = CGPoint(x: rect.width/2, y: rect.height/2)
         emitter.emitterSize = rect.size
+        let emitterCell = CAEmitterCell()
+        emitterCell.contents = UIImage(named: "flake.png")?.cgImage
+        emitterCell.birthRate = 20
+        emitterCell.lifetime = 3.5
+        emitter.emitterCells = [emitterCell]
     }
     
     //MARK: custom methods
@@ -77,7 +76,6 @@ class ViewController: UIViewController {
             summarySwitch(to: data.summary)
         } else {
             bgImageView.image = UIImage(named: data.weatherImageName)
-            snowView.isHidden = !data.showWeatherEffects
             flightNr.text = data.flightNr
             gateNr.text = data.gateNr
             departingFrom.text = data.departingFrom
@@ -164,7 +162,6 @@ class ViewController: UIViewController {
         }, completion: nil)
         
         UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseOut, animations: {
-            self.snowView.alpha = showEffects ? 1.0 : 0.0
         }, completion: nil)
     }
     
