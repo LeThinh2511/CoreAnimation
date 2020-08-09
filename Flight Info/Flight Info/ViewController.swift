@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         //start rotating the flights
         changeFlight(to: londonToParis, animated: true)
         
-        let rect = CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: 50.0)
+        let rect = CGRect(x: 0.0, y: -70.0, width: view.bounds.width, height: 50.0)
         let emitter = CAEmitterLayer()
         emitter.frame = rect
         view.layer.addSublayer(emitter)
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
         emitterCell.yAcceleration = 70.0
         emitterCell.xAcceleration = 10.0
         emitterCell.velocity = 20.0
-        emitterCell.emissionLongitude = .pi * -0.5
+        emitterCell.emissionLongitude = -.pi
         emitterCell.velocityRange = 200.0
         emitterCell.emissionRange = .pi * 0.5
         emitterCell.color = UIColor(red: 0.9, green: 1.0, blue: 1.0, alpha: 1.0).cgColor
@@ -69,6 +69,7 @@ class ViewController: UIViewController {
         emitterCell.scaleSpeed = -0.15
         emitterCell.alphaRange = 0.75
         emitterCell.alphaSpeed = -0.15
+        emitterCell.lifetimeRange = 1.0
     }
     
     //MARK: custom methods
