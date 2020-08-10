@@ -5,7 +5,13 @@ class ViewController: UIViewController {
     @IBOutlet var penguin: UIImageView!
     @IBOutlet var slideButton: UIButton!
     
-    var isLookingRight: Bool = true
+    var isLookingRight: Bool = true {
+        didSet {
+            let xScale: CGFloat = isLookingRight ? 1 : -1
+            penguin.transform = CGAffineTransform(scaleX: xScale, y: 1)
+            slideButton.transform = penguin.transform
+        }
+    }
     var penguinY: CGFloat = 0.0
     
     var walkSize: CGSize = CGSize.zero
@@ -36,11 +42,13 @@ class ViewController: UIViewController {
         
         //setup the animation
         penguinY = penguin.frame.origin.y
-        
+        loadWalkAnimation()
     }
     
     func loadWalkAnimation() {
-        
+        penguin.animationImages = walkFrames
+        penguin.animationDuration = animationDuration / 3
+        penguin.animationRepeatCount = 3
     }
     
     func loadSlideAnimation() {
@@ -48,11 +56,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func actionLeft(_ sender: AnyObject) {
-        
+        isLookingRight = false
+        penguin.startAnimating()
     }
     
     @IBAction func actionRight(_ sender: AnyObject) {
-        
+        isLookingRight = true
+        penguin.startAnimating()
     }
     
     @IBAction func actionSlide(_ sender: AnyObject) {
