@@ -58,11 +58,17 @@ class ViewController: UIViewController {
     @IBAction func actionLeft(_ sender: AnyObject) {
         isLookingRight = false
         penguin.startAnimating()
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
+            self.penguin.center.x -= self.walkSize.width
+        }, completion: nil)
     }
     
     @IBAction func actionRight(_ sender: AnyObject) {
         isLookingRight = true
         penguin.startAnimating()
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseOut, animations: {
+            self.penguin.center.x += self.walkSize.width
+        }, completion: nil)
     }
     
     @IBAction func actionSlide(_ sender: AnyObject) {
