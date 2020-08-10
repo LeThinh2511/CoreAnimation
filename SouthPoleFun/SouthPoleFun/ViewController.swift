@@ -52,7 +52,9 @@ class ViewController: UIViewController {
     }
     
     func loadSlideAnimation() {
-        
+        penguin.animationImages = slideFrames
+        penguin.animationDuration = animationDuration
+        penguin.animationRepeatCount = 1
     }
     
     @IBAction func actionLeft(_ sender: AnyObject) {
@@ -72,7 +74,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func actionSlide(_ sender: AnyObject) {
-        
+        loadSlideAnimation()
+        penguin.frame = CGRect(x: penguin.frame.origin.x, y: penguinY + (walkSize.height - slideSize.height), width: slideSize.width,
+                               height: slideSize.height)
+        penguin.startAnimating()
+        UIView.animate(withDuration: animationDuration - 0.02, delay: 0.0, options: .curveEaseOut, animations: {
+            self.penguin.center.x += self.isLookingRight ? self.slideSize.width : -self.slideSize.width
+        }, completion: { _ in
+            self.penguin.frame = CGRect(x: self.penguin.frame.origin.x, y: self.penguinY, width: self.walkSize.width, height: self.walkSize.height)
+            self.loadWalkAnimation()
+        } )
     }
 }
 
